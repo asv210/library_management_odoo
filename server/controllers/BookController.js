@@ -1,7 +1,7 @@
 const Book = require("../models/BookSchema");
 
 exports.addBook = async (req, res) => {
-  const { isbn, title, author, publisher, year, genre, quantity, category } =
+  const { isbn, title, author, publisher, year, genre, quantity } =
     req.body;
 
   try {
@@ -19,7 +19,6 @@ exports.addBook = async (req, res) => {
       genre,
       quantity,
       available: quantity, // Set available books to the same as quantity initially
-      category,
     });
 
     await book.save();
@@ -31,7 +30,7 @@ exports.addBook = async (req, res) => {
 };
 
 exports.updateBook = async (req, res) => {
-  const { isbn, title, author, publisher, year, genre, quantity, category } =
+  const { isbn, title, author, publisher, year, genre, quantity } =
     req.body;
 
   try {
@@ -47,7 +46,6 @@ exports.updateBook = async (req, res) => {
     book.genre = genre || book.genre;
     book.quantity = quantity || book.quantity;
     book.available = book.quantity; // Assuming all books are available initially
-    book.category = category || book.category;
 
     await book.save();
     res.json(book);
@@ -78,7 +76,6 @@ exports.searchBooks = async (req, res) => {
         { title: new RegExp(query, "i") },
         { author: new RegExp(query, "i") },
         { genre: new RegExp(query, "i") },
-        { category: new RegExp(query, "i") },
       ],
     });
     res.json(books);

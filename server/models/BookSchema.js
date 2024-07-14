@@ -10,7 +10,6 @@ const bookSchema = new Schema({
   genre: String,
   quantity: { type: Number, default: 1 },
   available: { type: Number, default: 1 },
-  category: String,
 });
 
 module.exports = mongoose.model("Book", bookSchema);
