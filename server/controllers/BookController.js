@@ -1,6 +1,7 @@
 const Book = require("../models/BookSchema");
 
 exports.addBook = async (req, res) => {
+  console.log("first")
   const { isbn, title, author, publisher, year, genre, quantity } =
     req.body;
 

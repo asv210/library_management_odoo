@@ -6,6 +6,8 @@ const connectDB = require("./config/db");
 const UserRoute = require("./routes/UserRoute");
 const BookRoute = require("./routes/BookRoute");
 const TransactionRoute = require("./routes/TransactionRoute");
+const cors=require("cors");
+app.use(cors());
 
 // Connect Database
 connectDB();

@@ -1,10 +1,11 @@
 module.exports = (roles) => {
   return (req, res, next) => {
-    if (!req.user || !roles.includes(req.role)) {
+    if ( !roles.includes(req.role)) {
       return res
         .status(403)
         .json({ msg: "Access denied: insufficient permissions" });
-    }
-    next();
+        console.log("hello world3")
+      }
+      next();
   };
 };

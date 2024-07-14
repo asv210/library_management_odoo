@@ -8,7 +8,7 @@ exports.register = async (req, res) => {
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: "User already exists" });
+      return res.status(409).send( "User already exists" );
     }
 
     user = new User({ email, lastName,firstName, password, role });
@@ -22,7 +22,7 @@ exports.register = async (req, res) => {
       user: {
         password: user.password,
         firstName:user.firstName,
-        lastName:user.lasstName,
+        lastName:user.lastName,
         email:user.email,
         role: user.role,
       },
@@ -39,10 +39,10 @@ exports.register = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    let user = await User.findOne({ username });
+    let user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
@@ -51,7 +51,6 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
-
     const payload = {
       user: {
         id: user.id,
@@ -59,9 +58,9 @@ exports.login = async (req, res) => {
       },
     };
 
-    jwt.sign(payload, "your-jwt-secret", { expiresIn: "1h" }, (err, token) => {
+    jwt.sign(payload, process.env.JWT_TOKEN_KEY, { expiresIn: "1h" }, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.json({ token, user });
     });
   } catch (err) {
     console.error(err.message);
